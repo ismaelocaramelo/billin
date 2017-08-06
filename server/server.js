@@ -1,7 +1,10 @@
 import Express from 'express';
 import GraphHTTP from 'express-graphql';
 import bodyParser from 'body-parser';
+import path from 'path';
+
 import Schema from './schema';
+
 
 const APP_PORT = 4000;
 
@@ -22,6 +25,12 @@ app.use('/graphql', GraphHTTP({
   graphiql: true,
   pretty: true,
 }));
+app.use(Express.static('public'));
+
+app.get('/', (req, res) => {
+  res.sendfile(path.resolve(__dirname, './../public', 'index.html'));
+});
+
 
 app.listen(APP_PORT, () => {
   console.log(`App listening on port ${APP_PORT}`); // eslint-disable-line no-console

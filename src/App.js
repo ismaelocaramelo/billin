@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import request from './request';
 import { ARTICLES_QUERY } from './queries';
+import CardItem from './components/cardItem';
+
 
 class App extends Component {
   // definition
@@ -11,21 +13,38 @@ class App extends Component {
     };
   }
 
+  
+
   // lifecycle
-  componentWillMount() {
+  componentDidMount() {
     request(ARTICLES_QUERY).then(response => {
-      this.setState({ articles: response.data.articles });
+      this.setState({ articles: response.articles });
     });
+  }
+
+  handleAuthor(author){
+    alert(author + ' also says Hello to you');
   }
 
   // Renders
   render() {
-    return (
-      <div className="App">
-        <h2>Billin code challenge</h2>
-        <pre>{JSON.stringify(this.state.articles, null, 2)}</pre>
+    return (this.state.articles.length === 0)? <h2>Cargando</h2> : 
+      <div>
+        <header>
+          <div>
+            <h1>Billin code challenge</h1>
+            <p>Text for Billin <a title="Billin Cards" href="https://www.billin.net/">Billin</a> </p>
+          </div>
+        </header>
+        <main>
+          <div>
+              <section>
+                <CardItem showAuthor={this.handleAuthor} data = {this.state.articles}/>
+              </section>
+          </div>
+        </main>
+        
       </div>
-    );
   }
 }
 
